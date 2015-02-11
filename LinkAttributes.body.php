@@ -2,14 +2,7 @@
 
 class LinkAttributes {
 
-	private function attributeIsAllowed ( $str ) {
-
-		if ( in_array( $str, array( 'rel', 'rev', 'charset ', 'type', 'hreflang', 'itemprop', 'media', 'title', 'accesskey', 'target' ) ) )
-			return true;
-		else
-			return false;
-
-	}
+	private $allowedAttribs= array( 'rel', 'rev', 'charset ', 'type', 'hreflang', 'itemprop', 'media', 'title', 'accesskey', 'target' );
 
 	private function doExtractAttributes ( &$text, &$attribs ) {
 
@@ -31,7 +24,7 @@ class LinkAttributes {
 			$pair = explode( '=', $a );
 
 			/* Only go ahead if we have a aaa=bbb pattern, and aaa i an allowed attribute */
-			if ( isset( $pair[1] ) && self::attributeIsAllowed( $pair[0] ) ) {
+			if ( isset( $pair[1] ) && in_array( $pair[0],$this->allowedAttribs) ) {
 
 				/* Add to existing attribute, or create a new */
 				if ( isset( $attribs[$pair[0]] ) ) {
